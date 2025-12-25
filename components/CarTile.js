@@ -1,9 +1,10 @@
 import { StyleSheet, View, Text, Image, Pressable } from "react-native";
 
-function CarTile({ carName, imageUri, plate }) {
+function CarTile({ carName, imageUri, plate, onPress }) {
   return (
     <Pressable
       style={({ pressed }) => [styles.container, pressed && styles.pressed]}
+      onPress={onPress}
     >
       <Image style={styles.logo} source={imageUri} />
       <View style={styles.infoContainer}>

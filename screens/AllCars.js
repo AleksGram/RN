@@ -2,18 +2,32 @@ import { StyleSheet, View, Text } from "react-native";
 import CarTile from "../components/CarTile";
 import AddCarButton from "../components/AddCarButton";
 
-function AllCars() {
+function AllCars({ navigation }) {
   return (
     <View style={styles.container}>
       <CarTile
-        carName={"MDX White "}
+        carName={"MDX White Bear"}
         imageUri={require("../assets/acura.png")}
         plate={"VD 4556 VN"}
+        onPress={() =>
+          navigation.navigate("SelectedCar", {
+            carName: "MDX White Bear",
+            imageUri: require("../assets/acura.png"),
+            plate: "VD 4556 VN",
+          })
+        }
       />
       <CarTile
         carName={"Micra Hulk"}
         imageUri={require("../assets/nissan.png")}
         plate={"VD 1245 VN"}
+        onPress={() =>
+          navigation.navigate("SelectedCar", {
+            carName: "Micra Hulk",
+            imageUri: require("../assets/nissan.png"),
+            plate: "VD 1245 VN",
+          })
+        }
       />
       <AddCarButton />
     </View>
