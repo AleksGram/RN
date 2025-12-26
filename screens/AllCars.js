@@ -1,34 +1,50 @@
 import { StyleSheet, View, Text } from "react-native";
 import CarTile from "../components/CarTile";
 import AddCarButton from "../components/AddCarButton";
+import { getCars } from "../DBConnector";
+import { useEffect, useState } from "react";
+import { CAR_IMAGES } from "../mockData";
 
 function AllCars({ navigation }) {
+  const [cars, setCars] = useState([]);
+
+  useEffect(() => {
+    async function fetchCars() {
+      const response = await getCars();
+      setCars(response);
+    }
+    fetchCars();
+  }, []);
+
+  if (cars.length === 0) {
+    return (
+      <View style={styles.container}>
+        <Text>No cars found</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <CarTile
-        carName={"MDX White Bear"}
-        imageUri={require("../assets/acura.png")}
-        plate={"VD 4556 VN"}
-        onPress={() =>
-          navigation.navigate("SelectedCar", {
-            carName: "MDX White Bear",
-            imageUri: require("../assets/acura.png"),
-            plate: "VD 4556 VN",
-          })
-        }
-      />
-      <CarTile
-        carName={"Micra Hulk"}
-        imageUri={require("../assets/nissan.png")}
-        plate={"VD 1245 VN"}
-        onPress={() =>
-          navigation.navigate("SelectedCar", {
-            carName: "Micra Hulk",
-            imageUri: require("../assets/nissan.png"),
-            plate: "VD 1245 VN",
-          })
-        }
-      />
+      {cars.map((car) => {
+        const imageUri =
+          CAR_IMAGES[car.make.toLowerCase()] || CAR_IMAGES.default;
+        return (
+          <CarTile
+            key={car.id}
+            carName={car.carName}
+            imageUri={imageUri}
+            plate={car.plate}
+            onPress={() =>
+              navigation.navigate("SelectedCar", {
+                carName: car.carName,
+                imageUri: imageUri,
+                plate: car.plate,
+              })
+            }
+          />
+        );
+      })}
       <AddCarButton />
     </View>
   );

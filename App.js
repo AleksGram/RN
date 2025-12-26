@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 import SelectedCar from "./screens/SelectedCar";
+import AddCar from "./screens/AddCar";
 
 import AllCars from "./screens/AllCars";
 import { Colors } from "./constants/styles";
@@ -42,6 +43,13 @@ export default function App() {
             options={({ navigation }) => ({
               title: "Service options",
             })}
+          />
+          <Stack.Screen
+            name="AddCar"
+            component={AddCar}
+            options={{
+              title: "Add New Car",
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>
