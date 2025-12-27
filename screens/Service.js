@@ -1,4 +1,5 @@
 import { StyleSheet, View, Text, FlatList, Pressable } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../constants/styles";
 import { getServiceNotes } from "../DBConnector";
@@ -10,6 +11,8 @@ function Service({ navigation, route }) {
 
   const [serviceNotes, setServiceNotes] = useState({});
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
     async function fetchServiceNotes() {
       try {
@@ -20,7 +23,7 @@ function Service({ navigation, route }) {
       }
     }
     fetchServiceNotes();
-  }, [carId]);
+  }, [carId, isFocused]);
 
   // Convert categorized notes to a flat array of the latest note for each type
   const latestServices = Object.keys(serviceNotes).map((type) => {
