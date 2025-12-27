@@ -17,3 +17,18 @@ export const CAR_IMAGES = {
   toyota: require("./assets/toyota.png"),
   default: require("./assets/icon.png"),
 };
+
+export const SERVICE_TYPES = [
+  { label: "Oil Change", value: "oil" },
+  { label: "Filter Change", value: "filter" },
+  { label: "Spark Plugs", value: "spark" },
+  { label: "Brake Pads", value: "brake" },
+];
+
+export const ICON_MAP = {
+  oil: "water-outline",
+  filter: "aperture-outline",
+  spark: "flash-outline",
+  brake: "disc-outline",
+  default: "construct-outline",
+};

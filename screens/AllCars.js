@@ -40,6 +40,7 @@ function AllCars({ navigation }) {
                 carName: car.carName,
                 imageUri: imageUri,
                 plate: car.plate,
+                carId: car.id,
               })
             }
           />

@@ -25,3 +25,51 @@ export async function addCar(car) {
   const id = response.data.name;
   return id;
 }
+
+export async function getServiceNotes(carId) {
+  try {
+    const response = await axios.get(
+      `${DB_URL}/cars/${carId}/serviceNotes.json`
+    );
+
+    const categorizedNotes = {};
+
+    if (!response.data) {
+      return categorizedNotes;
+    }
+
+    // response.data is: { oil: { id1: { ... }, id2: { ... } }, filter: { id3: { ... } } }
+    for (const typeKey in response.data) {
+      const categoryNotes = response.data[typeKey];
+      categorizedNotes[typeKey] = [];
+
+      for (const noteId in categoryNotes) {
+        categorizedNotes[typeKey].push({
+          id: noteId,
+          ...categoryNotes[noteId],
+        });
+      }
+
+      // Sort each category by mileage descending
+      categorizedNotes[typeKey].sort(
+        (a, b) => Number(b.mileage) - Number(a.mileage)
+      );
+    }
+
+    return categorizedNotes;
+  } catch (error) {
+    console.log("Error getting service notes", error);
+    return {};
+  }
+}
+
+export async function addServiceNote(carId, serviceNote) {
+  const serviceType = serviceNote.type;
+
+  const response = await axios.post(
+    `${DB_URL}/cars/${carId}/serviceNotes/${serviceType}.json`,
+    serviceNote
+  );
+  const id = response.data.name;
+  return id;
+}

@@ -1,8 +1,13 @@
 import { StyleSheet, View, Text, Image } from "react-native";
 import ServiceOptionButton from "../components/ServiceOptionButton";
 
-function SelectedCar({ route }) {
-  const { carName, imageUri, plate } = route.params;
+function SelectedCar({ route, navigation }) {
+  const { carName, imageUri, plate, carId } = route.params;
+
+  function pressHandler() {
+    navigation.navigate("Service", { carId: carId });
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
@@ -13,7 +18,7 @@ function SelectedCar({ route }) {
         <Text style={styles.text}>{plate}</Text>
       </View>
       <View style={styles.serviceOptionsContainer}>
-        <ServiceOptionButton title="Service" />
+        <ServiceOptionButton title="Service" onPress={pressHandler} />
         <ServiceOptionButton title="Parts" />
         <ServiceOptionButton title="Notes" />
       </View>

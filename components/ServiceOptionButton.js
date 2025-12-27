@@ -1,11 +1,17 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Colors } from "../constants/styles";
 
-function ServiceOptionButton({ title }) {
+function ServiceOptionButton({ title, onPress }) {
   return (
-    <View style={styles.container}>
+    <Pressable
+      style={({ pressed }) => [
+        styles.container,
+        pressed && styles.pressed,
+      ]}
+      onPress={onPress}
+    >
       <Text style={styles.title}>{title}</Text>
-    </View>
+    </Pressable>
   );
 }
 
@@ -31,6 +37,9 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
 
     elevation: 5,
+  },
+  pressed: {
+    opacity: 0.7,
   },
   title: {
     color: "lightsteelblue",
