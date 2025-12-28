@@ -20,15 +20,17 @@ export const CAR_IMAGES = {
 
 export const SERVICE_TYPES = [
   { label: "Oil Change", value: "oil" },
-  { label: "Filter Change", value: "filter" },
+  { label: "Air Filter Change", value: "airFilter" },
   { label: "Spark Plugs", value: "spark" },
   { label: "Brake Pads", value: "brake" },
+  { label: "Oil Filter Change", value: "oilFilter" },
 ];
 
 export const ICON_MAP = {
   oil: "water-outline",
-  filter: "aperture-outline",
+  airFilter: "aperture-outline",
   spark: "flash-outline",
   brake: "disc-outline",
+  oilFilter: "archive-outline",
   default: "construct-outline",
 };

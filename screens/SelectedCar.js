@@ -8,6 +8,10 @@ function SelectedCar({ route, navigation }) {
     navigation.navigate("Service", { carId: carId });
   }
 
+  function partsPressHandler() {
+    navigation.navigate("Parts", { carId: carId });
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
@@ -19,7 +23,7 @@ function SelectedCar({ route, navigation }) {
       </View>
       <View style={styles.serviceOptionsContainer}>
         <ServiceOptionButton title="Service" onPress={pressHandler} />
-        <ServiceOptionButton title="Parts" />
+        <ServiceOptionButton title="Parts" onPress={partsPressHandler} />
         <ServiceOptionButton title="Notes" />
       </View>
     </View>

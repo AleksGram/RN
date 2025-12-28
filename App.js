@@ -7,6 +7,8 @@ import SelectedCar from "./screens/SelectedCar";
 import AddCar from "./screens/AddCar";
 import Service from "./screens/Service";
 import AddServiceNote from "./screens/AddServiceNote";
+import Parts from "./screens/Parts";
+import AddPart from "./screens/AddPart";
 
 import AllCars from "./screens/AllCars";
 import { Colors } from "./constants/styles";
@@ -65,6 +67,20 @@ export default function App() {
             component={AddServiceNote}
             options={{
               title: "Add Service Note",
+            }}
+          />
+          <Stack.Screen
+            name="Parts"
+            component={Parts}
+            options={{
+              title: "Car Parts",
+            }}
+          />
+          <Stack.Screen
+            name="AddPart"
+            component={AddPart}
+            options={{
+              title: "Add New Part",
             }}
           />
         </Stack.Navigator>

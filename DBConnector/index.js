@@ -73,3 +73,23 @@ export async function addServiceNote(carId, serviceNote) {
   const id = response.data.name;
   return id;
 }
+
+export async function addPart(carId, part) {
+  const response = await axios.post(`${DB_URL}/cars/${carId}/parts.json`, part);
+  const id = response.data.name;
+  return id;
+}
+
+export async function getParts(carId) {
+  const response = await axios.get(`${DB_URL}/cars/${carId}/parts.json`);
+  const parts = [];
+  for (const key in response.data) {
+    const partData = {
+      id: key,
+      ...response.data[key],
+    };
+    parts.push(partData);
+  }
+  console.log("parts-DB->", parts);
+  return parts;
+}
