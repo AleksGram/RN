@@ -33,6 +33,7 @@ function AllCars({ navigation }) {
           <CarTile
             key={car.id}
             carName={car.carName}
+            carModel={car.model}
             imageUri={imageUri}
             plate={car.plate}
             onPress={() =>

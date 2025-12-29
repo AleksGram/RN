@@ -90,6 +90,32 @@ export async function getParts(carId) {
     };
     parts.push(partData);
   }
-  console.log("parts-DB->", parts);
   return parts;
+}
+
+export async function addNote(carId, note) {
+  const response = await axios.post(`${DB_URL}/cars/${carId}/notes.json`, note);
+  const id = response.data.name;
+  return id;
+}
+
+export async function getNotes(carId) {
+  const response = await axios.get(`${DB_URL}/cars/${carId}/notes.json`);
+  const notes = [];
+  for (const key in response.data) {
+    const noteData = {
+      id: key,
+      ...response.data[key],
+    };
+    notes.push(noteData);
+  }
+  return notes;
+}
+
+export async function updateNote(carId, noteId, note) {
+  const response = await axios.patch(
+    `${DB_URL}/cars/${carId}/notes/${noteId}.json`,
+    note
+  );
+  return response.data;
 }

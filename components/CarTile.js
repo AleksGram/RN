@@ -1,15 +1,18 @@
 import { StyleSheet, View, Text, Image, Pressable } from "react-native";
 
-function CarTile({ carName, imageUri, plate, onPress }) {
+function CarTile({ carName, carModel, imageUri, plate, onPress }) {
   return (
     <Pressable
       style={({ pressed }) => [styles.container, pressed && styles.pressed]}
       onPress={onPress}
     >
-      <Image style={styles.logo} source={imageUri} />
+      <View style={styles.imageAndPlateContainer}>
+        <Image style={styles.logo} source={imageUri} />
+        <Text style={styles.plateLabel}>{plate}</Text>
+      </View>
       <View style={styles.infoContainer}>
+        <Text style={styles.label}>{carModel}</Text>
         <Text style={styles.label}>{carName}</Text>
-        <Text style={styles.label}>{plate}</Text>
       </View>
     </Pressable>
   );
@@ -31,6 +34,11 @@ const styles = StyleSheet.create({
   infoContainer: {
     marginHorizontal: "auto",
   },
+  imageAndPlateContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 80,
+  },
   logo: {
     width: 60,
     height: 60,
@@ -38,6 +46,12 @@ const styles = StyleSheet.create({
   label: {
     color: "white",
     fontSize: 20,
+  },
+  plateLabel: {
+    color: "lightsteelblue",
+    fontSize: 12,
+    fontWeight: "bold",
+    marginTop: 4,
   },
   pressed: {
     borderColor: "mediumblue",

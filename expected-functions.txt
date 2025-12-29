@@ -1,0 +1,5 @@
+1. Delete items for all categories
+2. Service notes: 
+    click on item ==> show the history of previous operation  
+3. Auth functionality
+4. Edit car info functionality 
