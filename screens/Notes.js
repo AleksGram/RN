@@ -28,7 +28,6 @@ function Notes({ navigation, route }) {
     async function fetchNotes() {
       try {
         const fetchedNotes = await getNotes(carId);
-        console.log("notes-state->", fetchedNotes);
         setNotes(fetchedNotes);
       } catch (error) {
         console.log("Error getting notes", error);
