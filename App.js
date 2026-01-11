@@ -24,6 +24,9 @@ const Stack = createNativeStackNavigator();
 
 function Navigation() {
   const authCtx = useContext(AuthContext);
+  const avatarLabel = authCtx.email
+    ? authCtx.email.charAt(0).toUpperCase()
+    : "";
 
   return (
     <NavigationContainer>
@@ -36,7 +39,7 @@ function Navigation() {
             <View style={styles.headerRightContainer}>
               {authCtx.isAuthenticated ? (
                 <>
-                  <Avatar label="A" />
+                  <Avatar label={avatarLabel} />
                   <Pressable
                     onPress={authCtx.logout}
                     style={({ pressed }) => pressed && styles.pressed}

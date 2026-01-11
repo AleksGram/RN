@@ -10,14 +10,25 @@ import {
 } from "react-native";
 import { Colors } from "../constants/styles";
 import { AuthContext } from "../store/auth-context";
+import { loginUser } from "../auth/auth";
 
 function Login({ navigation }) {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const authCtx = useContext(AuthContext);
 
-  function loginHandler() {
-    authCtx.authenticate("token");
+  async function loginHandler() {
+    try {
+      const token = await loginUser(login, password);
+      authCtx.authenticate(token, login);
+      console.log("Login with:", login, password);
+    } catch (error) {
+      Alert.alert(
+        "Authentication failed",
+        "Could not login. Please try again later."
+      );
+      console.log("auth-error", error);
+    }
   }
 
   function switchToSignup() {

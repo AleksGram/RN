@@ -4,25 +4,32 @@ import { createContext, useState } from "react";
 export const AuthContext = createContext({
   token: "",
   isAuthenticated: false,
-  authenticate: (token) => {},
+  email: "",
+  authenticate: (token, email) => {},
   logout: () => {},
 });
 
 export default function AuthContextProvider({ children }) {
   const [authToken, setAuthToken] = useState(null);
+  const [authEmail, setAuthEmail] = useState(null);
 
-  function authenticate(token) {
+  function authenticate(token, email) {
+    console.log("authenticate====>>>>>", email);
+
     setAuthToken(token);
     AsyncStorage.setItem("token", token);
+    setAuthEmail(email);
   }
 
   function logout() {
     setAuthToken(null);
     AsyncStorage.removeItem("token");
+    setAuthEmail(null);
   }
 
   const value = {
     token: authToken,
+    email: authEmail,
     isAuthenticated: !!authToken,
     authenticate: authenticate,
     logout: logout,

@@ -1,4 +1,5 @@
 import { useState, useContext } from "react";
+import { createUser } from "../auth/auth";
 import {
   StyleSheet,
   View,
@@ -16,14 +17,24 @@ function Signup({ navigation }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const authCtx = useContext(AuthContext);
-  function signupHandler() {
+
+  async function signupHandler() {
     if (password !== confirmPassword) {
       Alert.alert("Invalid input", "Passwords do not match!");
       return;
     }
     // TODO: Implement signup logic
-    authCtx.authenticate("token");
-    console.log("Signup with:", email, password);
+    try {
+      const token = await createUser(email, password);
+      authCtx.authenticate(token, email);
+      console.log("Signup with:", email, passwordn);
+    } catch (error) {
+      Alert.alert(
+        "Authentication failed",
+        "Could not create user. Please try again later."
+      );
+      console.log("auth-error", error);
+    }
   }
 
   function switchToLogin() {
