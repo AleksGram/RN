@@ -15,6 +15,8 @@ import AuthContextProvider, { AuthContext } from "./store/auth-context";
 import { useContext } from "react";
 
 import AllCars from "./screens/AllCars";
+import UpdateCarInfo from "./screens/UpdateCarInfo";
+import ServiceHistory from "./screens/ServiceHistory";
 import { Colors } from "./constants/styles";
 import Avatar from "./components/Avatar";
 import Login from "./screens/Login";
@@ -102,6 +104,13 @@ function Navigation() {
               }}
             />
             <Stack.Screen
+              name="UpdateCarInfo"
+              component={UpdateCarInfo}
+              options={{
+                title: "Update Car Info",
+              }}
+            />
+            <Stack.Screen
               name="Service"
               component={Service}
               options={{
@@ -113,6 +122,13 @@ function Navigation() {
               component={AddServiceNote}
               options={{
                 title: "Add Service Note",
+              }}
+            />
+            <Stack.Screen
+              name="ServiceHistory"
+              component={ServiceHistory}
+              options={{
+                title: "Service History",
               }}
             />
             <Stack.Screen

@@ -1,8 +1,17 @@
 import { StyleSheet, View, Text, Image } from "react-native";
 import ServiceOptionButton from "../components/ServiceOptionButton";
+import IconButton from "../UI/IconButton";
 
 function SelectedCar({ route, navigation }) {
   const { carName, imageUri, plate, carId } = route.params;
+
+  function editCarInfo() {
+    navigation.navigate("UpdateCarInfo", {
+      carId: carId,
+      carName: carName,
+      plate: plate,
+    });
+  }
 
   function pressHandler() {
     navigation.navigate("Service", { carId: carId });
@@ -18,6 +27,14 @@ function SelectedCar({ route, navigation }) {
 
   return (
     <View style={styles.container}>
+      <View style={styles.editButtonContainer}>
+        <IconButton
+          icon="settings-sharp"
+          size={24}
+          color="white"
+          onPress={editCarInfo}
+        />
+      </View>
       <View style={styles.logoContainer}>
         <Image style={styles.logo} source={imageUri} />
       </View>
@@ -38,30 +55,27 @@ export default SelectedCar;
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
-    flexDirection: "column",
-    marginHorizontal: 15,
-    marginVertical: 35,
-    display: "flex",
-    flexDirection: "column",
+    flex: 1,
+    paddingHorizontal: 15,
+    paddingVertical: 15,
     gap: 15,
+  },
+  editButtonContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
   },
   logoContainer: {
     width: 250,
     height: 250,
-    display: "flex",
-    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
-    marginTop: 20,
   },
   logo: {
     width: "100%",
     height: "100%",
   },
   infoContainer: {
-    marginHorizontal: "auto",
     textAlign: "center",
   },
   text: {
@@ -71,8 +85,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   serviceOptionsContainer: {
-    display: "flex",
-    flexDirection: "column",
     gap: 25,
   },
 });

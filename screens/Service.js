@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text, FlatList, Pressable } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { Colors } from "../constants/styles";
 import { getServiceNotes } from "../DBConnector";
 import { useState, useEffect } from "react";
@@ -29,13 +29,23 @@ function Service({ navigation, route }) {
   const latestServices = Object.keys(serviceNotes).map((type) => {
     const notes = serviceNotes[type];
     // They are already sorted by mileage in the DBConnector
-    return notes[0];
+    return {
+      ...notes[0],
+      extraNotesCount: notes.length > 1 ? notes.length - 1 : 0,
+    };
   });
 
   function renderServiceItem({ item }) {
     const iconName = ICON_MAP[item.type] || ICON_MAP.default;
     const operationName =
       item.type.charAt(0).toUpperCase() + item.type.slice(1) + " Change";
+
+    function showHistoryHandler() {
+      navigation.navigate("ServiceHistory", {
+        notes: serviceNotes[item.type],
+        type: item.type,
+      });
+    }
 
     return (
       <View style={styles.serviceItem}>
@@ -48,6 +58,24 @@ function Service({ navigation, route }) {
             Last changed: {item.mileage} km
           </Text>
         </View>
+        {item.extraNotesCount > 0 && (
+          <Pressable
+            style={({ pressed }) => [
+              styles.extraNotesContainer,
+              pressed && styles.pressed,
+            ]}
+            onPress={showHistoryHandler}
+          >
+            <Text style={styles.extraNotesText}>
+              Previous {item.extraNotesCount}
+            </Text>
+            <Ionicons
+              name="create-outline"
+              size={16}
+              color={Colors.primary200}
+            />
+          </Pressable>
+        )}
       </View>
     );
   }
@@ -127,6 +155,19 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: Colors.primary100,
     marginTop: 4,
+  },
+  extraNotesContainer: {
+    position: "absolute",
+    bottom: 6,
+    right: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+  },
+  extraNotesText: {
+    fontSize: 12,
+    color: Colors.primary200,
+    fontStyle: "italic",
   },
   buttonContainer: {
     position: "absolute",

@@ -26,6 +26,11 @@ export async function addCar(car) {
   return id;
 }
 
+export async function updateCarInfo(carId, carData) {
+  const response = await axios.patch(`${DB_URL}/cars/${carId}.json`, carData);
+  return response.data;
+}
+
 export async function getServiceNotes(carId) {
   try {
     const response = await axios.get(
@@ -39,6 +44,7 @@ export async function getServiceNotes(carId) {
     }
 
     // response.data is: { oil: { id1: { ... }, id2: { ... } }, filter: { id3: { ... } } }
+    console.log("response.data---categories", response.data);
     for (const typeKey in response.data) {
       const categoryNotes = response.data[typeKey];
       categorizedNotes[typeKey] = [];
@@ -55,7 +61,7 @@ export async function getServiceNotes(carId) {
         (a, b) => Number(b.mileage) - Number(a.mileage)
       );
     }
-
+console.log('after loop', categorizedNotes);
     return categorizedNotes;
   } catch (error) {
     console.log("Error getting service notes", error);

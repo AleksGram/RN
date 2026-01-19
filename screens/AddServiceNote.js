@@ -26,9 +26,15 @@ function AddServiceNote({ navigation, route }) {
 
   function inputChangedHandler(inputIdentifier, enteredValue) {
     setServiceData((curServiceData) => {
+      let value = enteredValue;
+
+      if (inputIdentifier === "mileage") {
+        value = enteredValue.replace(/[^0-9]/g, "");
+      }
+
       return {
         ...curServiceData,
-        [inputIdentifier]: enteredValue,
+        [inputIdentifier]: value,
       };
     });
   }
