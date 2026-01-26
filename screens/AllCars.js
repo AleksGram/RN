@@ -2,19 +2,22 @@ import { StyleSheet, View, Text } from "react-native";
 import CarTile from "../components/CarTile";
 import AddCarButton from "../components/AddCarButton";
 import { getCars } from "../DBConnector";
-import { useEffect, useState } from "react";
+import { useState, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { CAR_IMAGES } from "../mockData";
 
 function AllCars({ navigation }) {
   const [cars, setCars] = useState([]);
 
-  useEffect(() => {
-    async function fetchCars() {
-      const response = await getCars();
-      setCars(response);
-    }
-    fetchCars();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      async function fetchCars() {
+        const response = await getCars();
+        setCars(response);
+      }
+      fetchCars();
+    }, [])
+  );
 
   if (cars.length === 0) {
     return (

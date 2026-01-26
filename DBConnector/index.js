@@ -31,6 +31,11 @@ export async function updateCarInfo(carId, carData) {
   return response.data;
 }
 
+export async function deleteCar(carId) {
+  const response = await axios.delete(`${DB_URL}/cars/${carId}.json`);
+  return response.data;
+}
+
 export async function getServiceNotes(carId) {
   try {
     const response = await axios.get(
