@@ -9,6 +9,7 @@ import {
   FlatList,
   Pressable,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../constants/styles";
 import { SERVICE_TYPES } from "../mockData";
 import { addServiceNote } from "../DBConnector";
@@ -58,8 +59,12 @@ function AddServiceNote({ navigation, route }) {
     <View style={styles.container}>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Service Type</Text>
-        <TouchableOpacity
-          style={styles.dropdown}
+        <Pressable
+          style={({ pressed }) => [
+            styles.dropdown,
+            isTypeModalVisible && styles.dropdownActive,
+            pressed && styles.pressed,
+          ]}
           onPress={() => setIsTypeModalVisible(true)}
         >
           <Text
@@ -67,10 +72,18 @@ function AddServiceNote({ navigation, route }) {
               styles.dropdownText,
               !serviceData.type && styles.placeholder,
             ]}
+            numberOfLines={1}
           >
             {selectedTypeLabel || "Select Service Type"}
           </Text>
-        </TouchableOpacity>
+          <View style={styles.dropdownIcon}>
+            <Ionicons
+              name={isTypeModalVisible ? "chevron-up" : "chevron-down"}
+              size={20}
+              color="white"
+            />
+          </View>
+        </Pressable>
       </View>
 
       <View style={styles.inputContainer}>
@@ -110,17 +123,37 @@ function AddServiceNote({ navigation, route }) {
             <FlatList
               data={SERVICE_TYPES}
               keyExtractor={(item) => item.value}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={styles.modalItem}
-                  onPress={() => {
-                    inputChangedHandler("type", item.value);
-                    setIsTypeModalVisible(false);
-                  }}
-                >
-                  <Text style={styles.modalItemText}>{item.label}</Text>
-                </TouchableOpacity>
-              )}
+              renderItem={({ item }) => {
+                const isSelected = item.value === serviceData.type;
+                return (
+                  <TouchableOpacity
+                    style={[
+                      styles.modalItem,
+                      isSelected && styles.modalItemSelected,
+                    ]}
+                    onPress={() => {
+                      inputChangedHandler("type", item.value);
+                      setIsTypeModalVisible(false);
+                    }}
+                  >
+                    <Text
+                      style={[
+                        styles.modalItemText,
+                        isSelected && styles.modalItemTextSelected,
+                      ]}
+                    >
+                      {item.label}
+                    </Text>
+                    {isSelected && (
+                      <Ionicons
+                        name="checkmark"
+                        size={22}
+                        color={Colors.primary500}
+                      />
+                    )}
+                  </TouchableOpacity>
+                );
+              }}
             />
             <TouchableOpacity
               style={styles.closeButton}
@@ -153,18 +186,35 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   dropdown: {
-    backgroundColor: "white",
-    padding: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "rgba(26, 172, 240, 0.12)",
+    paddingLeft: 12,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: Colors.primary500,
+    overflow: "hidden",
+  },
+  dropdownActive: {
+    backgroundColor: "rgba(26, 172, 240, 0.25)",
   },
   dropdownText: {
+    flex: 1,
+    paddingVertical: 12,
     fontSize: 16,
-    color: Colors.gray700,
+    fontWeight: "600",
+    color: "white",
+  },
+  dropdownIcon: {
+    alignSelf: "stretch",
+    justifyContent: "center",
+    paddingHorizontal: 12,
+    marginLeft: 8,
+    backgroundColor: Colors.primary500,
   },
   placeholder: {
-    color: "#999",
+    color: Colors.primary100,
+    fontWeight: "normal",
   },
   input: {
     backgroundColor: "white",
@@ -210,14 +260,25 @@ const styles = StyleSheet.create({
     color: Colors.gray700,
   },
   modalItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingVertical: 15,
+    paddingHorizontal: 12,
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
   },
+  modalItemSelected: {
+    backgroundColor: Colors.primary50,
+    borderRadius: 8,
+  },
   modalItemText: {
     fontSize: 18,
-    textAlign: "center",
     color: Colors.gray700,
+  },
+  modalItemTextSelected: {
+    fontWeight: "bold",
+    color: Colors.primary700,
   },
   closeButton: {
     marginTop: 15,

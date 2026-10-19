@@ -8,9 +8,11 @@ import {
   Modal,
   TextInput,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../constants/styles";
+import NoteItem from "../components/NoteItem";
 import { getNotes, updateNote } from "../DBConnector";
 import { useIsFocused } from "@react-navigation/native";
 
@@ -71,15 +73,11 @@ function Notes({ navigation, route }) {
 
   function renderNoteItem({ item }) {
     return (
-      <Pressable
-        style={({ pressed }) => [styles.noteItem, pressed && styles.pressed]}
-        onPress={() => openNoteHandler(item)}
-      >
-        <Text style={styles.noteTitle}>{item.title}</Text>
-        <Text style={styles.noteSnippet} numberOfLines={1}>
-          {item.text}
-        </Text>
-      </Pressable>
+      <NoteItem
+        title={item.title}
+        text={item.text}
+        onEdit={() => openNoteHandler(item)}
+      />
     );
   }
 
@@ -106,8 +104,13 @@ function Notes({ navigation, route }) {
         </Pressable>
       </View>
 
-      <Modal visible={isModalVisible} animationType="slide" transparent>
-        <View style={styles.modalOverlay}>
+      <Modal
+        visible={isModalVisible}
+        animationType="slide"
+        transparent
+        onRequestClose={() => setIsModalVisible(false)}
+      >
+        <KeyboardAvoidingView style={styles.modalOverlay} behavior="padding">
           <View style={styles.modalContent}>
             <TextInput
               style={styles.modalTitleInput}
@@ -137,7 +140,7 @@ function Notes({ navigation, route }) {
               </TouchableOpacity>
             </View>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
     </View>
   );
@@ -154,29 +157,8 @@ const styles = StyleSheet.create({
   listContainer: {
     paddingBottom: 80,
   },
-  noteItem: {
-    backgroundColor: Colors.primary800,
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 12,
-    elevation: 4,
-    shadowColor: "black",
-    shadowOpacity: 0.25,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
-  },
   pressed: {
     opacity: 0.7,
-  },
-  noteTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "white",
-    marginBottom: 4,
-  },
-  noteSnippet: {
-    fontSize: 14,
-    color: Colors.primary100,
   },
   modalOverlay: {
     flex: 1,
@@ -189,7 +171,7 @@ const styles = StyleSheet.create({
     width: "85%",
     borderRadius: 20,
     padding: 20,
-    maxHeight: "70%",
+    maxHeight: "90%",
   },
   modalTitleInput: {
     fontSize: 20,
@@ -208,6 +190,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.gray700,
     minHeight: 150,
+    flexShrink: 1,
     textAlignVertical: "top",
     marginBottom: 20,
   },

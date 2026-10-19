@@ -57,25 +57,26 @@ function Service({ navigation, route }) {
           <Text style={styles.mileageText}>
             Last changed: {item.mileage} km
           </Text>
+          {item.extraNotesCount > 0 && (
+            <Pressable
+              style={({ pressed }) => [
+                styles.extraNotesContainer,
+                pressed && styles.pressed,
+              ]}
+              onPress={showHistoryHandler}
+              hitSlop={8}
+            >
+              <Text style={styles.extraNotesText}>
+                See previous {item.extraNotesCount}
+              </Text>
+              <Ionicons
+                name="create-outline"
+                size={18}
+                color={Colors.primary200}
+              />
+            </Pressable>
+          )}
         </View>
-        {item.extraNotesCount > 0 && (
-          <Pressable
-            style={({ pressed }) => [
-              styles.extraNotesContainer,
-              pressed && styles.pressed,
-            ]}
-            onPress={showHistoryHandler}
-          >
-            <Text style={styles.extraNotesText}>
-              Previous {item.extraNotesCount}
-            </Text>
-            <Ionicons
-              name="create-outline"
-              size={16}
-              color={Colors.primary200}
-            />
-          </Pressable>
-        )}
       </View>
     );
   }
@@ -157,15 +158,16 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   extraNotesContainer: {
-    position: "absolute",
-    bottom: 6,
-    right: 12,
+    alignSelf: "flex-end",
+    marginTop: 10,
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
+    gap: 6,
+    paddingVertical: 4,
+    paddingHorizontal: 6,
   },
   extraNotesText: {
-    fontSize: 12,
+    fontSize: 14,
     color: Colors.primary200,
     fontStyle: "italic",
   },
